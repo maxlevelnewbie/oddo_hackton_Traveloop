@@ -1,0 +1,196 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+  datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  password  String
+  image     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  trips      Trip[]
+  notes      TripNote[]
+
+  @@index([email])
+}
+
+model Trip {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  startDate   DateTime
+  endDate     DateTime
+  status      TripStatus @default(PLANNING)
+  coverImage  String?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  stops       Stop[]
+  activities  Activity[]
+  budgets     Budget[]
+  packingItems PackingItem[]
+  notes       TripNote[]
+  sharedTrip  SharedTrip?
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model Stop {
+  id          String   @id @default(cuid())
+  tripId      String
+  trip        Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  
+  city        String
+  country     String
+  orderIndex  Int
+  
+  arrivalDate DateTime
+  departureDate DateTime
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  activities  Activity[]
+  notes       TripNote[]
+
+  @@index([tripId])
+  @@unique([tripId, orderIndex])
+}
+
+model Activity {
+  id          String   @id @default(cuid())
+  tripId      String
+  trip        Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  
+  stopId      String?
+  stop        Stop?    @relation(fields: [stopId], references: [id], onDelete: SetNull)
+  
+  name        String
+  category    ActivityCategory
+  estimatedCost Float?
+  actualCost  Float?
+  date        DateTime?
+  notes       String?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([tripId])
+  @@index([stopId])
+  @@index([category])
+}
+
+model Budget {
+  id              String   @id @default(cuid())
+  tripId          String
+  trip            Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  
+  category        BudgetCategory
+  estimatedAmount Float
+  actualAmount    Float?
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([tripId])
+  @@index([category])
+}
+
+model PackingItem {
+  id        String   @id @default(cuid())
+  tripId    String
+  trip      Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  
+  item      String
+  category  PackingCategory
+  isPacked  Boolean  @default(false)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([tripId])
+}
+
+model TripNote {
+  id        String   @id @default(cuid())
+  tripId    String
+  trip      Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  stopId    String?
+  stop      Stop?    @relation(fields: [stopId], references: [id], onDelete: SetNull)
+  
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([tripId])
+  @@index([userId])
+  @@index([stopId])
+}
+
+model SharedTrip {
+  id          String   @id @default(cuid())
+  tripId      String   @unique
+  trip        Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  
+  publicId    String   @unique @default(cuid())
+  isPublic    Boolean  @default(true)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([publicId])
+}
+
+enum TripStatus {
+  PLANNING
+  ONGOING
+  COMPLETED
+  CANCELLED
+}
+
+enum ActivityCategory {
+  ADVENTURE
+  FOOD
+  SIGHTSEEING
+  NIGHTLIFE
+  NATURE
+  SHOPPING
+  CULTURE
+  SPORTS
+}
+
+enum BudgetCategory {
+  TRANSPORT
+  ACCOMMODATION
+  FOOD
+  ACTIVITIES
+  SHOPPING
+  MISCELLANEOUS
+}
+
+enum PackingCategory {
+  CLOTHING
+  TOILETRIES
+  DOCUMENTS
+  ELECTRONICS
+  MEDICATIONS
+  MISCELLANEOUS
+}
