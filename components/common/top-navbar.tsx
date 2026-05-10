@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Bell, Plus, Search } from "lucide-react";
 
 export function TopNavbar() {
@@ -25,8 +26,8 @@ export function TopNavbar() {
         <button type="button" className="rounded-xl border border-slate-700/70 p-2 text-slate-300 hover:bg-slate-800/80">
           <Bell className="h-4 w-4" />
         </button>
-        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-linear-to-r from-emerald-500 to-blue-500 text-sm font-bold text-white">
-          K
+        <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-linear-to-r from-emerald-500 to-blue-500 text-sm font-bold text-white">
+          <Image src="/images/three_cat.jpg" alt="Avatar" width={36} height={36} className="h-full w-full object-cover"/>
         </div>
       </div>
     </header>

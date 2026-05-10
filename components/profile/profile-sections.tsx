@@ -1,11 +1,13 @@
+import Image from 'next/image';
+
 export function ProfileSections() {
   return (
     <section className="grid gap-4">
       <article className="glass-card rounded-2xl p-5">
         <h2 className="font-semibold text-white">Avatar Upload</h2>
         <div className="mt-3 flex items-center gap-4">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-linear-to-r from-blue-500 to-emerald-500 text-lg font-bold text-white">
-            K
+          <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full bg-linear-to-r from-blue-500 to-emerald-500 text-lg font-bold text-white">
+            <Image src="/images/three_cat.jpg" alt="Avatar" width={64} height={64} className="h-full w-full object-cover" />
           </div>
           <button type="button" className="rounded-xl border border-slate-700 px-3 py-1.5 text-sm text-slate-200">
             Change Avatar

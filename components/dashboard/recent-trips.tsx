@@ -1,9 +1,33 @@
 import { TripCard, type TripCardData } from "@/components/trips/trip-card";
 
 const trips: TripCardData[] = [
-  { id: "paris-2026", title: "Paris + Amsterdam", range: "12 Jun - 20 Jun", cities: 2, budget: "$2,400", status: "Planning in progress" },
-  { id: "tokyo-2026", title: "Tokyo Explorer", range: "01 Aug - 07 Aug", cities: 1, budget: "$1,850", status: "Booked" },
-  { id: "bali-2026", title: "Bali Workcation", range: "15 Sep - 25 Sep", cities: 3, budget: "$2,100", status: "Draft" },
+  {
+    id: "paris-2026",
+    title: "Paris + Amsterdam",
+    range: "12 Jun - 20 Jun",
+    cities: 2,
+    budget: "$2,400",
+    status: "Planning in progress",
+    image: "/images/paris-amsterdam.jpg",
+  },
+  {
+    id: "tokyo-2026",
+    title: "Tokyo Explorer",
+    range: "01 Aug - 07 Aug",
+    cities: 1,
+    budget: "$1,850",
+    status: "Booked",
+    image: "/images/tokyo.jpg",
+  },
+  {
+    id: "bali-2026",
+    title: "Bali Workcation",
+    range: "15 Sep - 25 Sep",
+    cities: 3,
+    budget: "$2,100",
+    status: "Draft",
+    image: "/images/bali.jpg",
+  },
 ];
 
 export function RecentTrips() {

@@ -7,12 +7,24 @@ export type TripCardData = {
   cities: number;
   budget: string;
   status: string;
+  image?: string;
 };
 
-export function TripCard({ id, title, range, cities, budget, status }: Readonly<TripCardData>) {
+export function TripCard({ id, title, range, cities, budget, status, image }: Readonly<TripCardData>) {
   return (
     <article className="glass-card group overflow-hidden rounded-3xl">
-      <div className="h-32 bg-linear-to-r from-blue-600/40 via-indigo-600/30 to-emerald-500/30 transition duration-300 group-hover:scale-105" />
+      <div
+        className="h-44 overflow-hidden bg-linear-to-r from-blue-600/40 via-indigo-600/30 to-emerald-500/30 transition duration-300 group-hover:scale-105"
+        style={
+          image
+            ? {
+                backgroundImage: `linear-gradient(120deg, rgba(37, 99, 235, 0.5), rgba(79, 70, 229, 0.4), rgba(16, 185, 129, 0.4)), url(${image})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }
+            : undefined
+        }
+      />
       <div className="p-4">
         <h3 className="text-lg font-semibold text-white">{title}</h3>
         <p className="mt-1 text-xs text-slate-400">{range}</p>
