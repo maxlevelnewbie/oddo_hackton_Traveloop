@@ -52,7 +52,14 @@ const config: Config = {
     },
   },
   plugins: [require("tailwindcss/plugin")],
-  darkMode: ["class"],
+  darkMode: "class",
 };
 
 export default config;
+
+module.exports = {
+  plugins: {
+    "@tailwindcss/postcss": {},
+    autoprefixer: {},
+  },
+};
